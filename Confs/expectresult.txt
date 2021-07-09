@@ -1,0 +1,7 @@
+Boot    <-> charge   <-> Point   <->                 <->     <->     <->
+Beat           <-> currentTime         <->                     <->                 <->     <->     <->
+Authorize           <-> idT               <->                     <->                 <->     <->     <->
+Values         <-> Id         <-> MValue          <->                 <->     <->     <->
+Start    <-> idInfo           <-> transaction       <->                 <->     <->     <->
+Stop     <-> meter        <-> timestamp           <->tId    <->     <->     <->
+Status  <-> Id         <-> status              <->                 <->     <->     <->

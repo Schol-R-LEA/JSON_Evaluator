@@ -1,0 +1,3 @@
+ChangeConfiguration<->Configuration <-> Change ID <-> {"key": "Identity","value": "00006"}<->Reboot Response
+ClearCache<->ClearCache <-> Without Inputs <-> {}<-> Response retrieving all conf
+ChangeAvailability<-> Availability <-> Without Inputs <-> {}<->CALLERROR Response
