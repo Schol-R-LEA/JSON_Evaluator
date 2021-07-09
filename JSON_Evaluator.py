@@ -50,28 +50,26 @@ def gera_forms(get_inp_cond_id, get_inp_cond_endpoint):
         rowcont=0
 
         frm_json_case_button = ttk.Frame(framename)
-        frm_json_case_button.grid(column=0, row=0, rowspan=99)
+#        frm_json_case_button.grid(column=0, row=0, rowspan=99)
 
         frm_txt_json_case = ttk.Frame(framename)
-        frm_txt_json_case.grid(column=1, row=0)
-
-
+#        frm_txt_json_case.grid(column=1, row=0)
 
         url_show=ttk.Label(frm_txt_json_case, text=nome_endpoint + "  @  " + str(url_endpoint + tipo_de_conf) + "  @  " + get_inp_cond_id)
-        url_show.grid(column=1, row=0, columnspan=99, padx=10, pady=10)
+#        url_show.grid(column=1, row=0, columnspan=99, padx=10, pady=10)
 
         ttk.Label(frm_txt_json_case, text="Request:").grid(column=2, row=1, padx=10, pady=10)
         reqst_input = ScrolledText(frm_txt_json_case, width=75, height=10, wrap=tk.WORD)
-        reqst_input.grid(column=2, row=2, padx=10, pady=10, ipady=35)
+#        reqst_input.grid(column=2, row=2, padx=10, pady=10, ipady=35)
 
         ttk.Label(frm_txt_json_case, text="Expected Response:").grid(column=2, row=3, rowspan=1, padx=10, pady=10)
         lblexpect = ScrolledText(frm_txt_json_case, width=75, height=10, wrap=tk.WORD)
-        lblexpect.grid(column=2, row=4, padx=10, pady=10, ipady=15)
+#        lblexpect.grid(column=2, row=4, padx=10, pady=10, ipady=15)
 
 
 
         resp_json_input = ScrolledText(frm_txt_json_case, width=75, height=10, wrap=tk.WORD)
-        resp_json_input.grid(column=4, row=2, padx=10, pady=10, ipady=35)
+#        resp_json_input.grid(column=4, row=2, padx=10, pady=10, ipady=35)
         ttk.Button(frm_txt_json_case, text="Run", image=photRun,command=lambda resp_json=resp_json_input, reqtxt=reqst_input, tiporeq=tipo_de_conf: runpost(resp_json, reqtxt, tiporeq)).grid(column=3, row=2, padx=10, pady=10, ipady=65)
         ttk.Label(frm_txt_json_case, text="Response:").grid(column=4, row=1, padx=10, pady=10)
 
@@ -132,73 +130,143 @@ def gera_forms(get_inp_cond_id, get_inp_cond_endpoint):
 
 
 
-
-
-
-
-
-
 #######Gera tabuladores##################################
-
-
     tabControl = ttk.Notebook(tabmain1)
-#tab1
-    tab1 = ttk.Frame(tabControl)
-    tabControl.add(tab1, text="Messages")
 
-#tab2
-    tab2 = ttk.Frame(tabControl)
-    tabControl.add(tab2, text='Change ')
-    tabControl.pack(expand=1, fill="both")
-    # Tab3
-    tab3 = ttk.Frame(tabControl)
-    tabControl.add(tab3, text=' Cache')
-    tabControl.pack(expand=1, fill="both")
 
-    # Tab4
-    tab4 = ttk.Frame(tabControl)
-    tabControl.add(tab4, text=' Configuration')
-    tabControl.pack(expand=1, fill="both")
+    style = ttk.Style()
+    style.theme_create("stl_obrigator", parent="alt", settings={
+        "TNotebook": {"configure": {"tabmargins": [2, 5, 2, 0]}},
+        "TNotebook.Tab": {
+            "configure": {"padding": [5, 1], "background": "#fd6262"},
+            "map": {"background": [("selected", "#fd2b2b")],
+                    "expand": [("selected", [1, 1, 1, 0])]}}})
 
-    # Tab5
-    tab5 = ttk.Frame(tabControl)
-    tabControl.add(tab5, text='Get ')
-    tabControl.pack(expand=1, fill="both")
+    style.theme_create("stl_facult", parent="alt", settings={
+        "TNotebook": {"configure": {"tabmargins": [2, 5, 2, 0]}},
+        "TNotebook.Tab": {
+            "configure": {"background": "#62fd72"},
+            "map": {"background": [("selected", "#02d417")],
+                    "expand": [("selected", [1, 1, 1, 0])]}}})
 
-    # Tab6
-    tab6 = ttk.Frame(tabControl)
-    tabControl.add(tab6, text='List')
-    tabControl.pack(expand=1, fill="both")
+    style.theme_use("stl_obrigator")
+    tab0 = ttk.Frame(tabControl)
+    tabControl.add(tab0, text="Messages")
 
-    # Tab7
-    tab7 = ttk.Frame(tabControl)
-    tabControl.add(tab7, text=' Start ')
-    tabControl.pack(expand=1, fill="both")
+    lst_menu= []
+    lst_tipo=[]
+    for line in varconfbook:
+        if len(line) > 1:
+#            aaaaaa, tipo,nome,bbbbb,ccccc,ddddddd = line.split('<->')
+            aaaaaa, tipo,nome,bbbbb,ccccc = line.split('<->')
+            if nome not in lst_menu:
+                lst_menu.append(nome)
+                lst_tipo.append(tipo)
 
-    # Tab8
-    tab8 = ttk.Frame(tabControl)
-    tabControl.add(tab8, text=' Stop ')
-    tabControl.pack(expand=1, fill="both")
 
-    # Tab9
-    tab9 = ttk.Frame(tabControl)
-    tabControl.add(tab9, text='Reset')
-    tabControl.pack(expand=1, fill="both")
+    x = 0
+    tab1 = None
+    tab2 = None
+    tab3 = None
+    tab4 = None
+    tab5 = None
+    tab6 = None
+    tab7 = None
+    tab8 = None
+    tab9 = None
+    tab10 = None
+    tab11 = None
+    tab12 = None
+    tab13 = None
 
-    # tab10
-    tab10 = ttk.Frame(tabControl)
-    tabControl.add(tab10, text='Local')
-    tabControl.pack(expand=1, fill="both")
+    for nome,tipo in zip(lst_menu, lst_tipo):
+        if "Obrigatorio" in tipo:
+            style.theme_use("stl_obrigator")
+        else:
+            style.theme_use("stl_facult")
 
-    # tab11
-    tab11 = ttk.Frame(tabControl)
-    tabControl.add(tab11, text='Unlock ')
-    tabControl.pack(expand=1, fill="both")
+        if x == 1:
+            tab1 = ttk.Frame(tabControl)
+            tabControl.add(tab1, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab1)
+        elif x == 2:
+            tab2 = ttk.Frame(tabControl)
+            tabControl.add(tab2, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab2)
 
-    # tab12
-    tab12 = ttk.Frame(tabControl)
-    tabControl.add(tab12, text='Update ')
-    tabControl.pack(expand=1, fill="both")
+        elif x == 3:
+            tab3 = ttk.Frame(tabControl)
+            tabControl.add(tab3, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab3)
+
+        elif x == 4:
+            tab4 = ttk.Frame(tabControl)
+            tabControl.add(tab4, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab4)
+
+        elif x == 5:
+            tab5 = ttk.Frame(tabControl)
+            tabControl.add(tab5, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab5)
+
+        elif x == 6:
+            tab6 = ttk.Frame(tabControl)
+            tabControl.add(tab6, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab6)
+
+        if x == 7:
+            tab7 = ttk.Frame(tabControl)
+            tabControl.add(tab7, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab7)
+
+        elif x == 8:
+            tab8 = ttk.Frame(tabControl)
+            tabControl.add(tab8, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab8)
+
+        elif x == 9:
+            tab9 = ttk.Frame(tabControl)
+            tabControl.add(tab9, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab9)
+
+        elif x == 10:
+            tab10 = ttk.Frame(tabControl)
+            tabControl.add(tab10, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab10)
+
+        elif x == 11:
+            tab11 = ttk.Frame(tabControl)
+            tabControl.add(tab11, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab11)
+
+        elif x == 12:
+            tab12 = ttk.Frame(tabControl)
+            tabControl.add(tab12, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab12)
+
+        elif x == 13:
+            tab13 = ttk.Frame(tabControl)
+            tabControl.add(tab13, text=nome.strip())
+            tabControl.pack(expand=1, fill="both")
+            makesubmenu(nome.strip(), tab13)
+
+        elif x > 13:
+            messagebox.showinfo("Menu Testes OCPP", "Nao é possivel adicionar mais tabuladores.\n\n o numero maximo de tabuladores permitidos é 13, \n\n por favor reveja o seu ficheiro de configuracao (json_dumps.txt)")
+            tabControl.update()
+            break
+        x += 1
 
 ############################################################################################################
 
@@ -206,7 +274,7 @@ def gera_forms(get_inp_cond_id, get_inp_cond_endpoint):
     ################################################# tab1
 
     frmbtnspecs = ttk.Frame(tab1)
-    frmbtnspecs.pack(side="top")
+#    frmbtnspecs.pack(side="top")
 
     lbl = Label(frmbtnspecs, width=8, text="Vendor:", justify=RIGHT, anchor="e").grid(row=0, column=0, sticky=W, pady=2)
     inp_cond_vendor = Text(frmbtnspecs, height=1, width=35, relief=GROOVE, borderwidth=2)
@@ -224,7 +292,7 @@ def gera_forms(get_inp_cond_id, get_inp_cond_endpoint):
     inp_cond_firmware.grid(row=0, column=7, sticky=NW, pady=2)
 
     frmbtn = ttk.Frame(tab1)
-    frmbtn.pack(side="top", expand=1, fill="both")
+#    frmbtn.pack(side="top", expand=1, fill="both")
 
     coll = int(0)
     specvar = int(1)
